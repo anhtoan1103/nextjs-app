@@ -1,0 +1,823 @@
+================================================================================
+                    SPENDING MANAGER APP - TEST PLAN
+================================================================================
+
+Project: Spending Manager
+Version: 1.0.0
+Date: February 24, 2026
+Framework: Next.js 16.1.6 + TypeScript + Supabase
+
+
+================================================================================
+1. TEST ENVIRONMENT SETUP
+================================================================================
+
+Prerequisites:
+- Node.js installed
+- Next.js dev server running on localhost:3000
+- Supabase project configured with credentials in .env.local
+- Transactions table created in Supabase database
+- Chrome/Edge browser (primary), Firefox/Safari (secondary)
+- Mobile device or Chrome DevTools for mobile testing
+
+Test Data Required:
+- At least 5 sample transactions (mix of income and expense)
+- Transactions spanning different dates (week, month, year)
+- Various categories (Work & Salary, Food & Dining, Shopping, etc.)
+
+
+================================================================================
+2. FUNCTIONAL TESTING
+================================================================================
+
+2.1 PAGE LOAD & INITIAL RENDER
+-------------------------------
+Test Case ID: TC-001
+Priority: High
+Steps:
+  1. Open browser and navigate to http://localhost:3000
+  2. Wait for page to load
+Expected Result:
+  - Page loads within 3 seconds
+  - Loading spinner appears briefly
+  - Header displays with purple gradient background
+  - Current balance shows correctly (or $0.00 if no transactions)
+  - "Recent Transactions" section appears
+  - Week/Month/Year tabs are visible
+  - No console errors
+
+Status: [ ] Pass [ ] Fail
+Notes: _______________________________________________________________
+
+
+Test Case ID: TC-002
+Title: Empty State Display
+Priority: Medium
+Precondition: Database has no transactions
+Steps:
+  1. Load the application
+  2. Check the transactions section
+Expected Result:
+  - Message displays: "No transactions yet"
+  - Subtitle: "Click 'Add Transaction' to get started!"
+  - Chart shows empty/zero values
+  - Stats show $0.00 for all values
+Status: [ ] Pass [ ] Fail
+
+
+2.2 ADD TRANSACTION - SUCCESS CASES
+------------------------------------
+Test Case ID: TC-003
+Title: Add Income Transaction
+Priority: High
+Steps:
+  1. Click "Add Transaction" button
+  2. Select "Income" type
+  3. Enter description: "Monthly Salary"
+  4. Enter amount: 5000
+  5. Select today's date
+  6. Choose category: "Work & Salary"
+  7. Click "Add Transaction" button
+Expected Result:
+  - Modal closes
+  - Success message appears: "Transaction added successfully!"
+  - New transaction appears in the list
+  - Balance increases by $5,000.00
+  - Statistics update (Total Income +$5,000)
+  - Chart updates with new data point
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-004
+Title: Add Expense Transaction
+Priority: High
+Steps:
+  1. Click "Add Transaction" button
+  2. Select "Expense" type
+  3. Enter description: "Grocery Shopping"
+  4. Enter amount: 150.50
+  5. Select today's date
+  6. Choose category: "Shopping"
+  7. Click "Add Transaction"
+Expected Result:
+  - Modal closes
+  - Success message appears
+  - New transaction appears in the list
+  - Balance decreases by $150.50
+  - Statistics update (Total Expense +$150.50)
+  - Chart updates
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-005
+Title: Add Multiple Transactions
+Priority: Medium
+Steps:
+  1. Add 3 income transactions
+  2. Add 5 expense transactions
+  3. Verify all appear in the list
+Expected Result:
+  - All 8 transactions appear in the list
+  - Balance calculates correctly (sum of income - sum of expenses)
+  - Statistics show correct totals
+  - Chart displays all data points
+Status: [ ] Pass [ ] Fail
+
+
+2.3 ADD TRANSACTION - VALIDATION & ERROR CASES
+-----------------------------------------------
+Test Case ID: TC-006
+Title: Validation - Empty Description
+Priority: High
+Steps:
+  1. Open Add Transaction modal
+  2. Leave description empty
+  3. Fill all other fields
+  4. Click "Add Transaction"
+Expected Result:
+  - Error message: "Please enter a description"
+  - Modal stays open
+  - Transaction not saved
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-007
+Title: Validation - Zero Amount
+Priority: High
+Steps:
+  1. Open Add Transaction modal
+  2. Enter amount: 0
+  3. Fill all other fields
+  4. Click "Add Transaction"
+Expected Result:
+  - Error message: "Please enter a valid amount"
+  - Modal stays open
+  - Transaction not saved
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-008
+Title: Validation - Negative Amount
+Priority: High
+Steps:
+  1. Open Add Transaction modal
+  2. Enter amount: -100
+  3. Fill all other fields
+  4. Click "Add Transaction"
+Expected Result:
+  - Error message: "Please enter a valid amount"
+  - Modal stays open
+  - Transaction not saved
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-009
+Title: Cancel Add Transaction
+Priority: Medium
+Steps:
+  1. Open Add Transaction modal
+  2. Fill in some fields
+  3. Click "Cancel" button
+Expected Result:
+  - Modal closes
+  - No transaction added
+  - Form resets
+Status: [ ] Pass [ ] Fail
+
+
+2.4 STATISTICS & FILTERING
+---------------------------
+Test Case ID: TC-010
+Title: Week Tab - Filter Transactions
+Priority: High
+Precondition: Have transactions from current week and previous weeks
+Steps:
+  1. Click "Week" tab
+  2. Observe displayed transactions and stats
+Expected Result:
+  - Only current week's transactions shown in stats
+  - Chart shows 7 bars (Mon-Sun)
+  - Statistics calculate only for current week
+  - Balance remains unchanged (shows all-time balance)
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-011
+Title: Month Tab - Filter Transactions
+Priority: High
+Precondition: Have transactions from current month and previous months
+Steps:
+  1. Click "Month" tab
+  2. Observe displayed transactions and stats
+Expected Result:
+  - Only current month's transactions shown in stats
+  - Chart shows weekly groupings
+  - Statistics calculate only for current month
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-012
+Title: Year Tab - Filter Transactions
+Priority: High
+Precondition: Have transactions from different months
+Steps:
+  1. Click "Year" tab
+  2. Observe displayed transactions and stats
+Expected Result:
+  - Only current year's transactions shown in stats
+  - Chart shows 12 bars (Jan-Dec)
+  - Statistics calculate only for current year
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-013
+Title: Statistics Calculation Accuracy
+Priority: High
+Precondition: Known set of transactions
+Steps:
+  1. Add 3 income transactions: $1000, $500, $750
+  2. Add 2 expense transactions: $200, $150
+  3. Check statistics
+Expected Result:
+  - Total Income: $2,250.00
+  - Total Expense: $350.00
+  - Net Savings: $1,900.00
+  - Current Balance: $1,900.00
+Status: [ ] Pass [ ] Fail
+
+
+2.5 CHART VISUALIZATION
+------------------------
+Test Case ID: TC-014
+Title: Chart Displays Correctly
+Priority: Medium
+Steps:
+  1. Add transactions for different days of the week
+  2. View the chart
+Expected Result:
+  - Chart renders without errors
+  - Bars appear for each day with transactions
+  - X-axis shows day labels (Mon, Tue, Wed...)
+  - Y-axis shows amounts
+  - Hover shows tooltip with exact amount
+  - Colors match design (purple gradient)
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-015
+Title: Chart Updates After New Transaction
+Priority: Medium
+Steps:
+  1. Note current chart state
+  2. Add a new transaction
+  3. Observe chart
+Expected Result:
+  - Chart refreshes automatically
+  - New data point appears
+  - Animation is smooth
+Status: [ ] Pass [ ] Fail
+
+
+2.6 TRANSACTION LIST
+---------------------
+Test Case ID: TC-016
+Title: Transaction List Display
+Priority: Medium
+Steps:
+  1. View transaction list
+  2. Check each transaction item
+Expected Result:
+  - Transactions sorted by date (newest first)
+  - Each item shows: icon, description, date, amount
+  - Income amounts in green with + prefix
+  - Expense amounts in red with - prefix
+  - Category icon matches category
+  - Hover effect works
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-017
+Title: Transaction Category Icons
+Priority: Low
+Steps:
+  1. Add transactions for each category
+  2. Verify icons
+Expected Result:
+  - Work & Salary: 💵
+  - Food & Dining: ☕
+  - Shopping: 🛒
+  - Transportation: 🚗
+  - Entertainment: 🎮
+  - Bills & Utilities: 🏠
+  - Other: 💰
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+3. UI/UX TESTING
+================================================================================
+
+3.1 RESPONSIVE DESIGN
+----------------------
+Test Case ID: TC-018
+Title: Mobile Responsiveness (375px - iPhone SE)
+Priority: High
+Steps:
+  1. Open Chrome DevTools
+  2. Set viewport to 375px width
+  3. Test all features
+Expected Result:
+  - Layout adjusts to single column
+  - Stats cards stack vertically
+  - Add button text shortens to "Add"
+  - Modal fits screen
+  - All text readable (min 16px)
+  - No horizontal scroll
+  - Touch targets minimum 44px
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-019
+Title: Tablet Responsiveness (768px - iPad)
+Priority: Medium
+Steps:
+  1. Set viewport to 768px width
+  2. Test all features
+Expected Result:
+  - Layout adjusts appropriately
+  - Stats show in 3 columns
+  - Chart resizes properly
+  - Modal width appropriate
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-020
+Title: Desktop Responsiveness (1440px)
+Priority: Medium
+Steps:
+  1. Set viewport to 1440px width
+  2. Test all features
+Expected Result:
+  - Content max-width 1200px, centered
+  - Optimal spacing and padding
+  - Chart displays at good size
+Status: [ ] Pass [ ] Fail
+
+
+3.2 VISUAL DESIGN
+------------------
+Test Case ID: TC-021
+Title: Color Scheme Consistency
+Priority: Low
+Steps:
+  1. Check all components
+Expected Result:
+  - Primary purple: #667eea
+  - Secondary purple: #764ba2
+  - Income green: #10b981
+  - Expense red: #ef4444
+  - Background: #f5f7fa
+  - Gradient on header works
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-022
+Title: Typography & Spacing
+Priority: Low
+Steps:
+  1. Review all text elements
+Expected Result:
+  - Consistent font sizes
+  - Proper line heights
+  - Adequate spacing between elements
+  - No text overlap
+Status: [ ] Pass [ ] Fail
+
+
+3.3 ANIMATIONS & TRANSITIONS
+-----------------------------
+Test Case ID: TC-023
+Title: Smooth Animations
+Priority: Low
+Steps:
+  1. Interact with buttons, tabs, modal
+Expected Result:
+  - Button hover effects smooth (0.3s)
+  - Tab switching animates color
+  - Modal opens/closes with animation
+  - No janky animations
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+4. API TESTING
+================================================================================
+
+4.1 GET /api/transactions
+--------------------------
+Test Case ID: TC-024
+Title: Fetch All Transactions
+Priority: High
+Steps:
+  1. Open browser console
+  2. Run: fetch('/api/transactions').then(r => r.json()).then(console.log)
+Expected Result:
+  - Status: 200
+  - Response contains { data: [...], statusCode: 200 }
+  - Data is array of transactions
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-025
+Title: Fetch with Date Filter
+Priority: Medium
+Steps:
+  1. In console: fetch('/api/transactions?startDate=2026-02-01&endDate=2026-02-28')
+Expected Result:
+  - Only February transactions returned
+  - Correct filtering applied
+Status: [ ] Pass [ ] Fail
+
+
+4.2 POST /api/transactions
+---------------------------
+Test Case ID: TC-026
+Title: Create Transaction via API
+Priority: High
+Steps:
+  1. Open browser console
+  2. Run: fetch('/api/transactions', {
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({
+         type: 'income',
+         description: 'Test',
+         amount: 100,
+         date: '2026-02-24',
+         category: 'Other'
+       })
+     }).then(r => r.json()).then(console.log)
+Expected Result:
+  - Status: 201
+  - Response contains created transaction
+  - Transaction appears in database
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-027
+Title: API Error Handling - Missing Fields
+Priority: Medium
+Steps:
+  1. POST with missing description field
+Expected Result:
+  - Status: 400
+  - Error message: "Missing required fields"
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-028
+Title: API Error Handling - Invalid Type
+Priority: Medium
+Steps:
+  1. POST with type: 'invalid'
+Expected Result:
+  - Status: 400
+  - Error message: "Invalid transaction type"
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+5. DATABASE TESTING
+================================================================================
+
+Test Case ID: TC-029
+Title: Database Connection
+Priority: High
+Steps:
+  1. Check Supabase dashboard
+  2. Verify table exists
+Expected Result:
+  - Transactions table present
+  - All columns defined correctly
+  - Indexes created
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-030
+Title: Data Integrity Constraints
+Priority: High
+Steps:
+  1. Try to insert invalid data via Supabase SQL editor:
+     - NULL amount
+     - Negative amount
+     - Invalid type
+Expected Result:
+  - All constraints enforced
+  - Errors returned for invalid data
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-031
+Title: Database Performance
+Priority: Medium
+Steps:
+  1. Insert 1000 transactions
+  2. Load the app
+  3. Measure load time
+Expected Result:
+  - Page loads in < 3 seconds
+  - Queries use indexes
+  - No performance degradation
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+6. BROWSER COMPATIBILITY TESTING
+================================================================================
+
+Test Case ID: TC-032
+Title: Chrome/Edge Compatibility
+Priority: High
+Browser: Chrome/Edge (latest version)
+Expected Result: All features work correctly
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-033
+Title: Firefox Compatibility
+Priority: Medium
+Browser: Firefox (latest version)
+Expected Result: All features work correctly
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-034
+Title: Safari Compatibility
+Priority: Medium
+Browser: Safari (latest version)
+Expected Result: All features work correctly
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+7. SECURITY TESTING
+================================================================================
+
+Test Case ID: TC-035
+Title: Environment Variables Security
+Priority: High
+Steps:
+  1. Check .env.local is not committed to git
+  2. Verify NEXT_PUBLIC_ prefix on client-exposed vars
+Expected Result:
+  - .env.local in .gitignore
+  - Credentials not exposed in client code
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-036
+Title: SQL Injection Prevention
+Priority: High
+Steps:
+  1. Try to inject SQL in form fields:
+     - Description: "'; DROP TABLE transactions; --"
+Expected Result:
+  - Input properly escaped
+  - No SQL injection possible
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-037
+Title: XSS Prevention
+Priority: High
+Steps:
+  1. Enter script tags in description: "<script>alert('xss')</script>"
+Expected Result:
+  - Script not executed
+  - Rendered as plain text
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+8. ERROR HANDLING & EDGE CASES
+================================================================================
+
+Test Case ID: TC-038
+Title: Network Error Handling
+Priority: Medium
+Steps:
+  1. Stop Supabase / disconnect internet
+  2. Try to add transaction
+Expected Result:
+  - Error message displayed
+  - App doesn't crash
+  - User notified of issue
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-039
+Title: Invalid Supabase Credentials
+Priority: Medium
+Precondition: Set invalid credentials in .env.local
+Steps:
+  1. Restart dev server
+  2. Load app
+Expected Result:
+  - Error message in console
+  - Graceful error handling
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-040
+Title: Large Numbers
+Priority: Low
+Steps:
+  1. Enter amount: 999999999.99
+Expected Result:
+  - Number handles correctly
+  - Displays with proper formatting
+  - No overflow errors
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-041
+Title: Special Characters in Description
+Priority: Low
+Steps:
+  1. Enter description with special chars: "Café & Restaurant @ 50% off"
+Expected Result:
+  - Characters saved correctly
+  - Display without encoding issues
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-042
+Title: Rapid Clicking
+Priority: Low
+Steps:
+  1. Rapidly click "Add Transaction" button 10 times
+Expected Result:
+  - Only one modal opens
+  - No multiple submissions
+  - Button disabled during processing
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+9. PERFORMANCE TESTING
+================================================================================
+
+Test Case ID: TC-043
+Title: Page Load Performance
+Priority: High
+Tool: Chrome Lighthouse
+Steps:
+  1. Run Lighthouse audit
+Expected Result:
+  - Performance score > 80
+  - First Contentful Paint < 1.5s
+  - Largest Contentful Paint < 2.5s
+  - Cumulative Layout Shift < 0.1
+Status: [ ] Pass [ ] Fail
+Actual Scores: Performance: ___ FCP: ___ LCP: ___ CLS: ___
+
+
+Test Case ID: TC-044
+Title: Bundle Size
+Priority: Medium
+Steps:
+  1. Run: npm run build
+  2. Check output size
+Expected Result:
+  - Total bundle < 500KB (gzipped)
+  - No unnecessary dependencies
+Status: [ ] Pass [ ] Fail
+Actual Size: _______________
+
+
+================================================================================
+10. ACCESSIBILITY TESTING
+================================================================================
+
+Test Case ID: TC-045
+Title: Keyboard Navigation
+Priority: High
+Steps:
+  1. Use only keyboard (Tab, Enter, Esc)
+  2. Navigate through entire app
+Expected Result:
+  - All interactive elements focusable
+  - Modal can be closed with Esc
+  - Form can be submitted with Enter
+  - Focus visible on all elements
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-046
+Title: Screen Reader Compatibility
+Priority: Medium
+Tool: NVDA or JAWS
+Steps:
+  1. Navigate app with screen reader
+Expected Result:
+  - All elements announced correctly
+  - Form labels read properly
+  - Button purposes clear
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-047
+Title: Color Contrast
+Priority: Medium
+Tool: Chrome DevTools Accessibility Panel
+Steps:
+  1. Check all text color contrasts
+Expected Result:
+  - All text meets WCAG AA (4.5:1 ratio)
+  - Icons and buttons meet contrast requirements
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+11. DEPLOYMENT TESTING (Optional - for Vercel)
+================================================================================
+
+Test Case ID: TC-048
+Title: Production Build
+Priority: High
+Steps:
+  1. Run: npm run build
+  2. Run: npm start
+  3. Test on http://localhost:3000
+Expected Result:
+  - Build completes without errors
+  - App runs in production mode
+  - All features work
+Status: [ ] Pass [ ] Fail
+
+
+Test Case ID: TC-049
+Title: Environment Variables in Production
+Priority: High
+Steps:
+  1. Deploy to Vercel
+  2. Add environment variables in Vercel dashboard
+  3. Test deployed app
+Expected Result:
+  - App connects to Supabase
+  - All features work in production
+Status: [ ] Pass [ ] Fail
+
+
+================================================================================
+12. REGRESSION TESTING CHECKLIST
+================================================================================
+
+After any code changes, re-run these critical tests:
+[ ] TC-001 - Page Load
+[ ] TC-003 - Add Income Transaction
+[ ] TC-004 - Add Expense Transaction
+[ ] TC-010 - Week Tab Filter
+[ ] TC-013 - Statistics Calculation
+[ ] TC-018 - Mobile Responsiveness
+[ ] TC-024 - GET API
+[ ] TC-026 - POST API
+
+
+================================================================================
+TEST SUMMARY TEMPLATE
+================================================================================
+
+Test Date: _______________
+Tester: _______________
+Environment: [ ] Local [ ] Production
+
+Total Test Cases: 49
+Passed: ___
+Failed: ___
+Blocked: ___
+Not Executed: ___
+
+Pass Rate: _____%
+
+Critical Issues Found:
+1. _______________________________________________________________
+2. _______________________________________________________________
+3. _______________________________________________________________
+
+Medium Issues Found:
+1. _______________________________________________________________
+2. _______________________________________________________________
+
+Minor Issues Found:
+1. _______________________________________________________________
+2. _______________________________________________________________
+
+Overall Assessment: [ ] Ready for Release [ ] Needs Fixes [ ] Major Issues
+
+Sign-off: _______________     Date: _______________
+
+
+================================================================================
+END OF TEST PLAN
+================================================================================
