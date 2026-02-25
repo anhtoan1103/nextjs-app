@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spending Manager - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1f2937;
+            transition: all 0.3s ease;
+        }
+
+        .link-card:hover {
+            border-color: #667eea;
+            background: #f3f4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+
+        .link-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .app-link {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .app-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .app-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .link-card {
+                padding: 15px;
+            }
+
+            .icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Spending Manager</h1>
+        <p class="subtitle">Documentation & Resources</p>
+
+        <div class="links">
+            <a href="/workflow.html" class="link-card">
+                <div class="icon">🔄</div>
+                <div class="link-content">
+                    <div class="link-title">Workflow Documentation</div>
+                    <div class="link-description">Visual guide to Next.js architecture and data flow</div>
+                </div>
+            </a>
+
+            <a href="/test_plan.html" class="link-card">
+                <div class="icon">✅</div>
+                <div class="link-content">
+                    <div class="link-title">Test Plan</div>
+                    <div class="link-description">Comprehensive testing checklist with 49 test cases</div>
+                </div>
+            </a>
+
+            <a href="/design-mockup.html" class="link-card">
+                <div class="icon">🎨</div>
+                <div class="link-content">
+                    <div class="link-title">Design Mockup</div>
+                    <div class="link-description">Interactive UI design prototype</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="app-link">
+            <a href="/" class="app-button">
+                🚀 Launch Application
+            </a>
+        </div>
+    </div>
+</body>
+</html>
