@@ -31,7 +31,9 @@ export default function TransactionChart({ data }: TransactionChartProps) {
               borderRadius: '8px',
               fontSize: '14px',
             }}
-            formatter={(value: number) => `$${value.toFixed(2)}`}
+            formatter={(value: number | undefined) =>
+              value !== undefined ? `$${value.toFixed(2)}` : '$0.00'
+            }
           />
           <Bar dataKey="value" radius={[8, 8, 0, 0]}>
             {data.map((entry, index) => (
