@@ -11,6 +11,7 @@ export type TransactionCategory =
 
 export interface Transaction {
   id: string;
+  user_id: string;
   type: TransactionType;
   description: string;
   amount: number;

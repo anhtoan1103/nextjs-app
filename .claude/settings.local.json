@@ -5,7 +5,11 @@
       "Bash(npm install:*)",
       "Bash(npm run dev:*)",
       "Bash(taskkill:*)",
-      "Bash(npx kill-port:*)"
+      "Bash(npx kill-port:*)",
+      "Bash(rm -rf src/lib/supabase src/app/auth src/proxy.ts)",
+      "Bash(npm uninstall @supabase/ssr @supabase/supabase-js)",
+      "Bash(cat d:/nextjs-app/next.config*)",
+      "Bash(node -e \":*)"
     ]
   }
 }
